@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 from itertools import repeat
 
 from tools.lib import db_connect, geometric_factor, focus_point
-from tools.database_io import read_task, read_dpid_mapper, read_geometry_mapper, read_task_mapper
+from tools.database_io import read_task, read_dpid_mapper, read_geometry_mapper, read_task_mapper, read_focus_point_mapper
 from tools.geodata import GeophysicalTimeSeries, GeophysicalTimeSeriesRaw
 
 from settings.config import PATH_TO_PICKLE
@@ -99,7 +99,7 @@ class TerrameterDatabase(GeneralReader):
                 self.structure_database, self.task_ids)
             # Calculate geometric factor and focus points
             dpid_geometric_factor_lookup = {dpid: geometric_factor(*dpid_abmn_lookup[dpid]) for dpid in dpid_abmn_lookup.keys()}
-            focus_point_lookup = {dpid: focus_point(*dpid_abmn_lookup[dpid]) for dpid in dpid_abmn_lookup.keys()}
+            focus_point_lookup = read_focus_point_mapper(self.structure_database, self.task_ids)
             # Get array sizes
             number_of_measurements = len(geometry_lookuptable)
             number_of_days = len(fullpath_dirs)

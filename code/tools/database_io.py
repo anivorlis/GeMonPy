@@ -44,7 +44,20 @@ def read_geometry_mapper(database, ids):
             geometry_lookuptable[key] = index
             geometry_lookuptable_reverse[index] = key
         return geometry_lookuptable, geometry_lookuptable_reverse
-    
+
+def read_focus_point_mapper(database, ids):
+    with db_connect(database) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT ID, FocusX, FocusZ \
+                        FROM DP_ABMN WHERE TaskID in {}".format(str(ids)))
+        result = cursor.fetchall()
+        focus_point_lookup = dict()        
+        for row in result:
+            dpid = row[0]
+            focus_point_lookup[dpid] = (row[1], row[2])
+        return focus_point_lookup
+
 def read_task_mapper(database, ids):
 
     task_dpid_lookup = defaultdict(list)
