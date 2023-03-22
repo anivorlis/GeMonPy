@@ -1,0 +1,20 @@
+*.pyc
+*.bat
+*.sh
+*.po 
+
+# Git
+.git/
+
+# VS Code
+.vscode/
+
+# log file
+code/software/logs.txt
+
+# global variables
+code/settings/config.py
+code/settings/params.ivp
+
+# data
+data/
