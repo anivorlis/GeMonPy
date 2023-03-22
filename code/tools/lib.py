@@ -61,6 +61,6 @@ def focus_point(a: float, b: float, m: float, n: float) -> tuple[float, float]:
     :param n: x-position of potential electrode N
     :return: A tuple with the focus point for the given configuration (Fx, Fz)
     :rtype: tuple(float, float)"""
-    xmn = abs(m-n) / 2
+    xmn = (m+n) / 2
     z = min( [ (xmn-a), (b-xmn)] ) / 3
     return (xmn, z)
