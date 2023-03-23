@@ -222,7 +222,7 @@ def plot_pseudo_single():
 
         dpids = data.raw.task_dpid_lookup[task_id]
         indices = np.sort([data.raw.geometry_lookuptable[dpid] for dpid in dpids])
-        for index, dt in enumerate(data.raw[task_id].dates):
+        for index, dt in enumerate(data.raw.dates):
             res_filename = os.path.join(fullpath, np.datetime_as_string(dt, unit='h').replace('-', '_').replace('T', '_') + '_00_00_res.png')
             charg_filename = os.path.join(fullpath, np.datetime_as_string(dt, unit='h').replace('-', '_').replace('T', '_') + '_00_00_charg.png')
             x = data.raw.focus_x[indices]
