@@ -218,6 +218,9 @@ def plot_pseudo_single():
         fullpath = os.path.join(PATH_TO_PSEUDO, task)
         root, dirs, files = next(os.walk(fullpath))
 
+        if not os.path.exists(fullpath):
+            os.mkdir(fullpath)
+
         dpids = data.raw.task_dpid_lookup[task_id]
         indices = np.sort([data.raw.geometry_lookuptable[dpid] for dpid in dpids])
         for index, dt in enumerate(data.raw[task_id].dates):
