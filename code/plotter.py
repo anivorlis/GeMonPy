@@ -97,10 +97,10 @@ def plot_2d_section(x: np.ndarray, y: np.ndarray, c: np.ndarray, filename: str, 
         pcm = plt.pcolormesh(xgrid, ygrid, cgrid,
                              norm=colors.SymLogNorm(linthresh=0.03, linscale=0.03,
                                                     vmin=vmin, vmax=vmax), cmap='jet')
-        #fig.colorbar(pcm, orientation="horizontal", extend='both')
+        fig.colorbar(pcm, orientation="horizontal", extend='both')
     else:
         pcm = plt.pcolormesh(xgrid, ygrid, cgrid, cmap='jet', vmin=vmin, vmax=vmax)
-        #fig.colorbar(pcm, orientation="horizontal", extend='both')
+        fig.colorbar(pcm, orientation="horizontal", extend='both')
     
     # 'beauty' plots
     plt.xlabel('X (m)')

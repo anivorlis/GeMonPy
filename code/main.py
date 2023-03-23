@@ -229,9 +229,9 @@ def plot_pseudo_single():
             depth = data.raw.focus_z[indices]
             res = data.raw.apres[indices, index]
             charg = data.raw.chargeability[indices, index]
-            title = str(dt)
+            title = str(dt).replace('T', ' ')[:-6] + ':00:00'
             if not os.path.isfile(res_filename):
-                p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300)
+                p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300, title=title)
             if not os.path.isfile(charg_filename):
                 p.plot_2d_section(x, depth, charg, charg_filename, vmin=1, vmax=8, title=title, log=False)
     data.save(PICKLE_FULLPATH)
@@ -255,7 +255,7 @@ def plot_results_single():
             charg = data.inverted[task_id].chargeability[:, index]
             title = str(dt)
             if not os.path.isfile(res_filename):
-                p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300)
+                p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300, title=title)
             if not os.path.isfile(charg_filename):
                 p.plot_2d_section(x, depth, charg, charg_filename, vmin=1, vmax=8, title=title, log=False)
     data.save(PICKLE_FULLPATH)
