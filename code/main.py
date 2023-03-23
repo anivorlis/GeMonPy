@@ -228,7 +228,7 @@ def plot_pseudo_single():
             x = data.raw.focus_x[indices]
             depth = data.raw.focus_z[indices]
             res = data.raw.apres[indices, index]
-            charg = data.raw.charg[indices, index]
+            charg = data.raw.chargeability[indices, index]
             title = str(dt)
             if not os.path.isfile(res_filename):
                 p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300)
