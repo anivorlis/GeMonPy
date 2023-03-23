@@ -75,8 +75,8 @@ def plot_decays(data: GeophysicalTimeSeries, path: str):
         ax.set_zlabel("Chargeability (mV/V)")
         plt.savefig('Line4_{:04d}_3d_decay'.format(meas_id), dpi=400, figsize=(1400, 800))
 
-def plot_2d_section(x: np.ndarray, y: np.ndarray, c: np.ndarray, filename: str, 
-                    vmin: int, vmax: int, max_depth: int = 0, log: bool = True) -> None: 
+def plot_2d_section(x: np.ndarray, y: np.ndarray, c: np.ndarray, filename: str, vmin: int, vmax: int, 
+                    title: str = None, max_depth: int = 0, log: bool = True) -> None: 
 
     # Convert to negative
     if min(y) > 0:
@@ -105,8 +105,8 @@ def plot_2d_section(x: np.ndarray, y: np.ndarray, c: np.ndarray, filename: str,
     # 'beauty' plots
     plt.xlabel('X (m)')
     plt.ylabel('Z (m)')
-    plt.title('Inverted Model')
     plt.axis((x1, x2, y1, y2))
     plt.axis('scaled')
+    plt.title(title)
     plt.savefig(filename, dpi=300)
     plt.close()

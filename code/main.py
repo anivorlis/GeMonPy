@@ -16,7 +16,7 @@ from inverter import invert_batch_file
 
 from tools.geodata import GeophysicalTimeSeries
 
-from settings.config import PATH_TO_DATA, PATH_TO_PLOT, PATH_TO_PICKLE, PATH_TO_INVERSION_OUTPUT, INVERSION_PARAMS
+from settings.config import PATH_TO_DATA, PATH_TO_PLOT, PATH_TO_PSEUDO, PATH_TO_PICKLE, PATH_TO_INVERSION_OUTPUT, INVERSION_PARAMS
 from settings.config import TASK_IDS, PICKLE_NAME
 
 PICKLE_FULLPATH = os.path.join(PATH_TO_PICKLE, PICKLE_NAME)
@@ -208,6 +208,33 @@ def read_results_single():
     data.save(PICKLE_FULLPATH)
 
 @my_timer
+def plot_pseudo_single():
+
+    data = GeophysicalTimeSeries.load(PICKLE_FULLPATH)
+
+    for task_id in TASK_IDS:
+        task = f"task_{task_id}"
+
+        fullpath = os.path.join(PATH_TO_PSEUDO, task)
+        root, dirs, files = next(os.walk(fullpath))
+
+        dpids = data.raw.task_dpid_lookup[task_id]
+        indices = np.sort([data.raw.geometry_lookuptable[dpid] for dpid in dpids])
+        for index, dt in enumerate(data.raw[task_id].dates):
+            res_filename = os.path.join(fullpath, np.datetime_as_string(dt, unit='h').replace('-', '_').replace('T', '_') + '_00_00_res.png')
+            charg_filename = os.path.join(fullpath, np.datetime_as_string(dt, unit='h').replace('-', '_').replace('T', '_') + '_00_00_charg.png')
+            x = data.raw.focus_x[indices]
+            depth = data.raw.focus_z[indices]
+            res = data.raw.apres[indices, index]
+            charg = data.raw.charg[indices, index]
+            title = str(dt)
+            if not os.path.isfile(res_filename):
+                p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300)
+            if not os.path.isfile(charg_filename):
+                p.plot_2d_section(x, depth, charg, charg_filename, vmin=1, vmax=8, title=title, log=False)
+    data.save(PICKLE_FULLPATH)
+
+@my_timer
 def plot_results_single():
 
     data = GeophysicalTimeSeries.load(PICKLE_FULLPATH)
@@ -225,10 +252,11 @@ def plot_results_single():
             depth = data.inverted[task_id].depth
             res = data.inverted[task_id].resistivity[:, index]
             charg = data.inverted[task_id].chargeability[:, index]
+            title = str(dt)
             if not os.path.isfile(res_filename):
                 p.plot_2d_section(x, depth, res, res_filename, vmin=10, vmax=300)
             if not os.path.isfile(charg_filename):
-                p.plot_2d_section(x, depth, charg, charg_filename, vmin=1, vmax=8, log=False)
+                p.plot_2d_section(x, depth, charg, charg_filename, vmin=1, vmax=8, title=title, log=False)
     data.save(PICKLE_FULLPATH)
 
 
@@ -293,6 +321,7 @@ def process_new_data():
     invert_single()
     invert_timelapse()
     read_results_single()
+    plot_pseudo_single()
     plot_results_single()
     data_to_csv()
 
@@ -307,5 +336,6 @@ if __name__ == "__main__":
     invert_single()
     invert_timelapse()
     read_results_single()
+    plot_pseudo_single()
     plot_results_single()
     data_to_csv()
