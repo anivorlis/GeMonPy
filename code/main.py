@@ -216,7 +216,6 @@ def plot_pseudo_single():
         task = f"task_{task_id}"
 
         fullpath = os.path.join(PATH_TO_PSEUDO, task)
-        root, dirs, files = next(os.walk(fullpath))
 
         if not os.path.exists(fullpath):
             os.mkdir(fullpath)
@@ -246,7 +245,6 @@ def plot_results_single():
         task = f"task_{task_id}"
 
         fullpath = os.path.join(PATH_TO_INVERSION_OUTPUT, 'individual', task)
-        root, dirs, files = next(os.walk(fullpath))
 
         for index, dt in enumerate(data.inverted[task_id].dates):
             res_filename = os.path.join(fullpath, np.datetime_as_string(dt, unit='h').replace('-', '_').replace('T', '_') + '_00_00_res.png')
