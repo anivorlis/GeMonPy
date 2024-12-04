@@ -1,3 +1,6 @@
+**Ge**oelectrical **Mon**itoring **Py**thon
+
+
 This repository provides solutions for processing and inverting Geoelectrical Monitoring Data.
 We welcome ideas of what should be developed further. We hope this repository can be used for inspiration, and 
 become a central point for creating pipelines for analyzing geoelectrical monitoring data. 
