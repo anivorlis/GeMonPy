@@ -98,9 +98,15 @@ class Butterworth(FilteringStrategy):
         b, a = butter(self.order, normal_cutoff, btype='low', analog=False)
 
         number_of_measurements, number_of_days = values.shape
-        values_filtered = np.empty([number_of_measurements, number_of_days])
+        values_filtered_forward = np.empty([number_of_measurements, number_of_days])
+        values_filtered_reverse = np.empty([number_of_measurements, number_of_days])
         for meas_id in range(number_of_measurements):
-            values_filtered[meas_id, :] = lfilter(b, a, values[meas_id, :])
+            values_filtered_forward[meas_id, :] = lfilter(b, a, values[meas_id, :])
+            values_filtered_reverse[meas_id, :] = lfilter(b, a, values[meas_id, ::-1])
+        values_filtered_reverse = values_filtered_reverse[:, ::-1]
+        values_filtered = (values_filtered_forward+values_filtered_reverse) / 2
+        values_filtered[:, :20] = values_filtered_reverse[:, :20]
+        values_filtered[:, -20:] = values_filtered_reverse[:, -20:]
         return values_filtered
 
     def frequency_response(self) -> np.ndarray:
