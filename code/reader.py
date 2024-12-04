@@ -24,6 +24,15 @@ class GeneralReader(ABC):
     def extend(self, path_to_data: str, data: GeophysicalTimeSeriesRaw) -> GeophysicalTimeSeriesRaw:
         pass
 
+    def save_data(self, filename: str):
+        outfile = os.path.join(PATH_TO_PICKLE, filename)
+        self.data.save(outfile)
+
+    def load_data(self, filename: str):
+        infile = os.path.join(PATH_TO_PICKLE, filename)
+        if os.path.isfile(infile):
+            self.data = GeophysicalTimeSeries.load(infile)
+
 
 class TerrameterDatabase(GeneralReader):
 
@@ -64,15 +73,6 @@ class TerrameterDatabase(GeneralReader):
         new_data = self.make_data([fullpath_directory,])
         # Merge the old and new GeophysicalTimeSeries to a new object
         self.data.raw.extend(new_data)
-
-    def save_data(self, filename: str):
-        outfile = os.path.join(PATH_TO_PICKLE, filename)
-        self.data.save(outfile)
-
-    def load_data(self, filename: str):
-        infile = os.path.join(PATH_TO_PICKLE, filename)
-        if os.path.isfile(infile):
-            self.data = GeophysicalTimeSeries.load(infile)
 
     def querry_ip_window_list(self, database: str):
         # Return a list with delay time + IP window widths
@@ -166,6 +166,23 @@ class TerrameterDatabase(GeneralReader):
                                         voltage, current, resistance, apres, chargeability, decay)
         return data
 
+
+class MPTDAS(GeneralReader):
+    
+    def __init__(self, structure_database: str = ''):
+        pass
+
+    def read_data(self, path_to_data: str):
+        pass
+
+    def extend(self, path_to_data: str) -> None:
+        pass
+
+    def extend_single(self, fullpath_directory: str) -> None:
+        pass
+
+
+    
 
 def read_res2dinv_xyz_single(filename: str) -> np.ndarray:
     with open(filename, 'r') as fin:
