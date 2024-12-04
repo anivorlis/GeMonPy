@@ -21,3 +21,8 @@ data/
 
 # jupyter
 jupyter/
+
+# uv
+.venv/
+.python-version
+uv.lock
