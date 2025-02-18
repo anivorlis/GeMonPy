@@ -70,7 +70,7 @@ def read_mpt_data(filename):
     return meas,elec   
 
 
-def read_mpt_data_fast(filename: str) -> np.ndarray:
+def read_mpt_data_fast(filename: str) -> tuple[np.ndarray, np.ndarray]:
     
     with open(filename, 'r')as fin:
         
